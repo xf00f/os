@@ -8,7 +8,7 @@ $(TASKS):
 run: build
 	qemu-system-i386 -D qemu.log -monitor stdio -vga cirrus \
 		-serial file:kernel.log \
-		-nodefaults -gdb tcp:0.0.0.0:1234 -cdrom os/bin/os.iso
+		-nodefaults -gdb tcp:0.0.0.0:1234 -cdrom os/iso/bin/os.iso
 
 run-shell:
 	docker run -v $(PWD)/os:/opt/os -it xf00f/os /bin/bash

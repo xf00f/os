@@ -17,9 +17,12 @@ build: bin/kernel.elf
 bin:
 	find ./src -type d | sed -e "s|\./src|./bin|" | xargs mkdir -p
 
-bin/kernel.elf: bin $(OBJECTS) link.ld
+bin/kernel.elf: bin $(OBJECTS) link.ld ../libc/bin/libk.a
 	$(CC) $(LDFLAGS) $(OBJECTS) -lgcc -lk -o bin/kernel.elf
 	grub-file --is-x86-multiboot bin/kernel.elf || rm bin/kernel.elf
+
+../libc/bin/libk.a:
+	cd ../libc && $(MAKE)
 
 $(C_OBJECTS): bin/%.o: src/%.c
 	$(CC) $(CFLAGS) $< -o $@

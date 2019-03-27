@@ -21,7 +21,7 @@ void terminal_initialize(void)
 {
   terminal_row = 0;
   terminal_column = 0;
-  terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
+  terminal_color = vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_BLACK);
   terminal_buffer = VGA_MEMORY;
   for (size_t y = 0; y < VGA_HEIGHT; y++)
   {
@@ -42,6 +42,7 @@ void terminal_putentryat(unsigned char c, uint8_t color, size_t x, size_t y)
 {
   const size_t index = y * VGA_WIDTH + x;
   terminal_buffer[index] = vga_entry(c, color);
+  terminal_move_cursor(index + 1);
 }
 
 void terminal_putchar(char c)
@@ -75,7 +76,7 @@ void terminal_writestring(const char *data)
 #define FB_HIGH_BYTE_COMMAND 14
 #define FB_LOW_BYTE_COMMAND 15
 
-void terminal_move_cursor(uint16_t pos)
+void terminal_move_cursor(size_t pos)
 {
   outb(FB_COMMAND_PORT, FB_HIGH_BYTE_COMMAND);
   outb(FB_DATA_PORT, ((pos >> 8) & 0x00FF));
