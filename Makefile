@@ -14,7 +14,7 @@ run-shell:
 	docker run -v $(PWD)/os:/opt/os -it xf00f/os /bin/bash
 
 run-gdb:
-	docker run -v $(PWD)/os:/opt/os -it --detach-keys="ctrl-u,u" xf00f/os gdb -x gdb-init
+	docker run -v $(PWD)/os:/opt/os -w /opt/os/kernel -it --detach-keys="ctrl-u,u" xf00f/os gdb -x gdb-init
 
 build-image:
 	docker build -t xf00f/os .
